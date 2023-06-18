@@ -1,5 +1,6 @@
 syntax = "proto3";
 package frontend_base_service;
+import "google/protobuf/empty.proto";
 
 service Route {
     rpc GetRoute (google.protobuf.Empty) returns (UniversalReply);
