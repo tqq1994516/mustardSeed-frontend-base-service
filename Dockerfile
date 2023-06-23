@@ -1,21 +1,10 @@
-FROM rust:alpine AS builder
+FROM ubuntu:22.04
 
-ENV GO111MODULE=on \
-    GOPROXY=https://goproxy.cn,direct \
-    CGB_ENABLED=0 \
-    GOOS=linux \
-    GOARCH=amd64
+RUN sed -i 's/archive.ubuntu.com/mirrors.ustc.edu.cn/g' /etc/apt/sources.list
 
-WORKDIR /build
-COPY . .
-
-RUN cargo build
-
-FROM scratch
-# 从builder镜像中把/dist/app 拷贝到当前目录
-COPY --from=builder /build/app /
+WORKDIR /app
+COPY target/release  .
 
 EXPOSE 50011
 
-CMD ["/app"]
-
+CMD ["./frontend_base_service"]
